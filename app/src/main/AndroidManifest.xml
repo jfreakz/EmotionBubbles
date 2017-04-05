@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ImageActivity" />
-        <activity android:name=".BubbleActivity"></activity>
+        <activity android:name=".BubbleActivity" />
+        <activity android:name=".SubFeelingActivity"></activity>
     </application>
 
 </manifest>

@@ -2,40 +2,28 @@ package sg.com.comnet.emotionbubbles;
 
 import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
 import android.graphics.Color;
-import android.graphics.Path;
-import android.graphics.PathMeasure;
 import android.graphics.Rect;
-import android.media.Image;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.support.constraint.solver.widgets.Animator;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.nineoldandroids.view.ViewHelper;
-
 import java.util.Random;
-
-import static java.security.AccessController.getContext;
 
 public class SplashActivity extends AppCompatActivity {
 
     private static String[] labels = {"Love","Joy","Surprise","Anger","Sadness","Anxiety","Fear","Anticipation","Hope","Grief","Pleasure"};
     BubbleLayout layout;
     Random random;
+    int cnt = 0;
+    CountDownTimer ct;
     private int[] colors = {
             R.color.colorPrimary,
             R.color.colorAccent,
@@ -49,7 +37,9 @@ public class SplashActivity extends AppCompatActivity {
             R.color.greenEnd,
             R.color.amber
     };
-    int cnt = 0;
+    private Rect mDisplaySize = new Rect();
+    private float mScale;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +79,7 @@ public class SplashActivity extends AppCompatActivity {
 
                     if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                         Toast.makeText(SplashActivity.this, ((BubbleView) view).getText().toString(), Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SplashActivity.this, ImageActivity.class));
+                        startActivity(new Intent(SplashActivity.this, SubFeelingActivity.class));
                     }
                     return true;
                 }
@@ -162,9 +152,7 @@ public class SplashActivity extends AppCompatActivity {
             ct.cancel();
         }
     }
-    CountDownTimer ct;
-    private Rect mDisplaySize = new Rect();
-    private float mScale;
+
     public void startAnimation(final View leafImageView) {
 
         leafImageView.setPivotX(leafImageView.getWidth()/2);
@@ -184,7 +172,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                float value = ((Float) (animation.getAnimatedValue())).floatValue();
+                float value = (Float) (animation.getAnimatedValue());
 
                 leafImageView.setRotation(angle*value);
                 leafImageView.setTranslationX((movex-40)*value);
