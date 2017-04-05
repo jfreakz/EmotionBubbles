@@ -1,19 +1,17 @@
 package sg.com.comnet.emotionbubbles;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class SeekbarWithIntervals extends LinearLayout {
 	private LinearLayout mLinearLayout = null;
@@ -78,6 +76,7 @@ public class SeekbarWithIntervals extends LinearLayout {
 				param.weight = 1;
 
 				textViewInterval.setGravity(Gravity.CENTER_HORIZONTAL);
+
 				getLinearLayout().addView(textViewInterval, param);
 			}
 		}
