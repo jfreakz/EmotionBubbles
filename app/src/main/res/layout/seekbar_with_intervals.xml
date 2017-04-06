@@ -17,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -145,5 +146,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/intervals"
-        android:thumb="@mipmap/ic_launcher" />
+        android:progressDrawable="@mipmap/progressbar"
+        android:thumb="@mipmap/stepper" />
 </RelativeLayout>

@@ -57,15 +57,24 @@ public class SplashActivity extends AppCompatActivity {
 
         layout = (BubbleLayout) findViewById(R.id.bubble_layout);
 
+
+        BubbleView bubbleViewLogo = new BubbleView(this);
+        bubbleViewLogo.setTag("logo");
+        bubbleViewLogo.setCircleColor(android.R.color.transparent);
+        bubbleViewLogo.setBackgroundResource(R.mipmap.ic_launcher);
+
+        layout.addView(bubbleViewLogo, 150, 150);
+
         int col = 0;
         for (String label : labels) {
             BubbleView bubbleView = new BubbleView(this);
 
 //            bubbleView.setCircleColor(colors[new Random().nextInt(colors.length)]);
             bubbleView.setCircleColor(colors[col]);
+            bubbleView.setTag("c_color" + colors[col]);
             bubbleView.setTextColor(Color.WHITE);
             bubbleView.setTextSize((float)random.nextInt(20-12) + 12);
-            bubbleView.setRotation(random.nextInt(90));
+//            bubbleView.setRotation(random.nextInt(90));
             bubbleView.setText(label);
             bubbleView.setGravity(Gravity.CENTER);
             bubbleView.setPadding(10, 10, 10, 10);
@@ -97,17 +106,20 @@ public class SplashActivity extends AppCompatActivity {
         }
 
 
-        cnt = layout.getChildCount();
+        cnt = 1;
         ct = new CountDownTimer(Long.MAX_VALUE ,700) { // interval 1s
 
             // This is called every interval. (Every 1 seconds in this example)
             public void onTick(long millisUntilFinished) {
-                if(cnt == 1) cancelTimer();
-                View v = layout.getChildAt(cnt-1);
-                v.setVisibility(View.VISIBLE);
-                v.setAnimation(AnimationUtils.loadAnimation(SplashActivity.this,R.anim.slide_in_up));
+                if (cnt == layout.getChildCount())
+                    cancelTimer();
+                else {
+                    View v = layout.getChildAt(cnt);
+                    v.setVisibility(View.VISIBLE);
+                    v.setAnimation(AnimationUtils.loadAnimation(SplashActivity.this, R.anim.slide_in_up));
 //                startAnimation(v);
-                cnt--;
+                    cnt++;
+                }
             }
             public void onFinish() {
                 System.out.println("finished");

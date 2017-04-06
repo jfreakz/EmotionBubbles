@@ -1,5 +1,6 @@
 package sg.com.comnet.emotionbubbles;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Point;
@@ -7,6 +8,7 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,15 +22,36 @@ public class BubbleLayout extends ViewGroup implements BubbleView.MoveListener {
     public static final int DEFAULT_PADDING = 10;
     public static final int DEFAULT_MIN_SPEED = 200;
     public static final int DEFAULT_MAX_SPEED = 500;
-
+    int width = 0;
     private int padding = DEFAULT_PADDING;
     private int minPxPerTenMilliseconds = DEFAULT_MIN_SPEED;
     private int maxPxPerTenMilliseconds = DEFAULT_MAX_SPEED;
-
     private double mRadiansPiece = 2 * Math.PI / 6;
     private int mRandomRadians = 0;
     private List<BubbleInfo> mBubbleInfos = new ArrayList<>();
     private Timer mTimer;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            int count = getChildCount();
+            for (int i = 0; i < count && mBubbleInfos.size() > 0; i++) {
+
+                BubbleInfo bubbleInfo = mBubbleInfos.get(i);
+
+                List<BubbleInfo> overlapList = hasOverlap(bubbleInfo);
+
+                Point overlapPoint = ifOverlapBounds(bubbleInfo);
+                if (overlapPoint != null) {
+                    reverseIfOverlapBounds(bubbleInfo);
+                } else if (overlapList.size() > 0) {
+                    dealWithOverlap();
+                }
+
+                moveBubble(bubbleInfo);
+            }
+            startAnimate();
+        }
+    };
 
     public BubbleLayout(Context context) {
         this(context, null);
@@ -56,6 +79,10 @@ public class BubbleLayout extends ViewGroup implements BubbleView.MoveListener {
             }
         }
         typedArray.recycle();
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        width = displayMetrics.widthPixels;
 
         mRandomRadians = getRandomBetween(0, (int) (2 * Math.PI));
         mHandler.sendEmptyMessage(0);
@@ -111,7 +138,6 @@ public class BubbleLayout extends ViewGroup implements BubbleView.MoveListener {
 
         return new int[]{resultX, resultY};
     }
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -173,7 +199,6 @@ public class BubbleLayout extends ViewGroup implements BubbleView.MoveListener {
         }
     }
 
-
     private int getRandomBetween(int min, int max) {
         return min + (int) (Math.random() * ((max - min) + 1));
     }
@@ -185,7 +210,6 @@ public class BubbleLayout extends ViewGroup implements BubbleView.MoveListener {
     private Rect getBounds(int left, int top, int width, int height) {
         return new Rect(left, top, left + width, top + height);
     }
-
 
     private boolean doRectOverlap(Rect rect0, Rect rect1) {
         return !(rect0.left > rect1.right || rect1.left > rect0.right) && !(rect0.top > rect1.bottom || rect1.top > rect0.bottom);
@@ -256,32 +280,11 @@ public class BubbleLayout extends ViewGroup implements BubbleView.MoveListener {
 
     }
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            int count = getChildCount();
-            for (int i = 0; i < count && mBubbleInfos.size() > 0; i++) {
-
-                BubbleInfo bubbleInfo = mBubbleInfos.get(i);
-
-                List<BubbleInfo> overlapList = hasOverlap(bubbleInfo);
-
-                Point overlapPoint = ifOverlapBounds(bubbleInfo);
-                if (overlapPoint != null) {
-                    reverseIfOverlapBounds(bubbleInfo);
-                } else if (overlapList.size() > 0) {
-                    dealWithOverlap();
-                }
-
-                moveBubble(bubbleInfo);
-            }
-            startAnimate();
-        }
-    };
-
     private void moveBubble(BubbleInfo info) {
         View child = getChildAt(info.getIndex());
-        int[] center = getRadianPoint(info.getSpeed(), child.getLeft() + child.getWidth() / 2, child.getTop() + child.getWidth() / 2, info.getRadians());
+        int[] center = {width / 2, 80};
+        if (!child.getTag().toString().equalsIgnoreCase("logo"))
+            center = getRadianPoint(info.getSpeed(), child.getLeft() + child.getWidth() / 2, child.getTop() + child.getWidth() / 2, info.getRadians());
         Rect rect = getBounds(center[0] - child.getWidth() / 2, center[1] - child.getWidth() / 2, child.getMeasuredWidth(), child.getMeasuredHeight());
         info.setRect(rect);
         child.layout(rect.left, rect.top, rect.right, rect.bottom);
