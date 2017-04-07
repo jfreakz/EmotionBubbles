@@ -12,14 +12,13 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static String[] labels = {"Love","Joy","Surprise","Anger","Sadness","Anxiety","Fear","Anticipation","Hope","Grief","Pleasure"};
+    private static String[] labels = {"Mood1", "Mood2", "Mood3", "Mood4", "Mood5", "Love", "Joy", "Surprise", "Anger", "Sadness", "Anxiety", "Fear", "Anticipation", "Hope", "Grief", "Pleasure"};
     BubbleLayout layout;
     Random random;
     int cnt = 0;
@@ -35,7 +34,12 @@ public class SplashActivity extends AppCompatActivity {
             R.color.roseEnd,
             R.color.greenStart,
             R.color.greenEnd,
-            R.color.amber
+            R.color.amber,
+            R.color.colorPrimary,
+            R.color.colorAccent,
+            R.color.blueStart,
+            R.color.blueEnd,
+            R.color.purpleStart
     };
     private Rect mDisplaySize = new Rect();
     private float mScale;
@@ -100,7 +104,8 @@ public class SplashActivity extends AppCompatActivity {
 //            ViewHelper.setY(bubbleView, random.nextInt(height/2));
 
             bubbleView.setVisibility(View.INVISIBLE);
-            layout.addView(bubbleView,150,150);
+            int size = random.nextInt(150 - 125) + 125;
+            layout.addView(bubbleView, size, size);
             col++;
 
         }
@@ -116,7 +121,7 @@ public class SplashActivity extends AppCompatActivity {
                 else {
                     View v = layout.getChildAt(cnt);
                     v.setVisibility(View.VISIBLE);
-                    v.setAnimation(AnimationUtils.loadAnimation(SplashActivity.this, R.anim.slide_in_up));
+//                    v.setAnimation(AnimationUtils.loadAnimation(SplashActivity.this, R.anim.slide_in_up));
 //                startAnimation(v);
                     cnt++;
                 }
