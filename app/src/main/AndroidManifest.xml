@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".ImageActivity" />
         <activity android:name=".BubbleActivity" />
-        <activity android:name=".SubFeelingActivity"></activity>
+        <activity android:name=".SubFeelingActivity" />
+        <activity android:name=".FlowActivity"></activity>
     </application>
 
 </manifest>

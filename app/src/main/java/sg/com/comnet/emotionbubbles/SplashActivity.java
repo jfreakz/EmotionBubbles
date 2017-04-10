@@ -12,13 +12,14 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static String[] labels = {"Mood1", "Mood2", "Mood3", "Mood4", "Mood5", "Love", "Joy", "Surprise", "Anger", "Sadness", "Anxiety", "Fear", "Anticipation", "Hope", "Grief", "Pleasure"};
+    private static String[] labels = {"Love", "Joy", "Surprise", "Anger", "Sadness", "Anxiety", "Fear", "Anticipation", "Hope", "Grief", "Pleasure"};
     BubbleLayout layout;
     Random random;
     int cnt = 0;
@@ -77,6 +78,7 @@ public class SplashActivity extends AppCompatActivity {
             bubbleView.setCircleColor(colors[col]);
             bubbleView.setTag("c_color" + colors[col]);
             bubbleView.setTextColor(Color.WHITE);
+            bubbleView.setBackgroundResource(R.drawable.shadow_circle);
             bubbleView.setTextSize((float)random.nextInt(20-12) + 12);
 //            bubbleView.setRotation(random.nextInt(90));
             bubbleView.setText(label);
@@ -92,7 +94,7 @@ public class SplashActivity extends AppCompatActivity {
 
                     if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                         Toast.makeText(SplashActivity.this, ((BubbleView) view).getText().toString(), Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SplashActivity.this, SubFeelingActivity.class));
+                        startActivity(new Intent(SplashActivity.this, FlowActivity.class));
                     }
                     return true;
                 }
@@ -112,7 +114,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
         cnt = 1;
-        ct = new CountDownTimer(Long.MAX_VALUE ,700) { // interval 1s
+        ct = new CountDownTimer(Long.MAX_VALUE, 1000) { // interval 1s
 
             // This is called every interval. (Every 1 seconds in this example)
             public void onTick(long millisUntilFinished) {
@@ -121,7 +123,7 @@ public class SplashActivity extends AppCompatActivity {
                 else {
                     View v = layout.getChildAt(cnt);
                     v.setVisibility(View.VISIBLE);
-//                    v.setAnimation(AnimationUtils.loadAnimation(SplashActivity.this, R.anim.slide_in_up));
+                    v.setAnimation(AnimationUtils.loadAnimation(SplashActivity.this, R.anim.slide_in_up));
 //                startAnimation(v);
                     cnt++;
                 }

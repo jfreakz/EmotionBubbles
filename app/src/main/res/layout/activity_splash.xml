@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/bg4" />
     <sg.com.comnet.emotionbubbles.BubbleLayout
         android:id="@+id/bubble_layout"
         android:layout_width="match_parent"
@@ -12,4 +18,4 @@
         app:bubbleview_minSpeed="1dp"
         app:bubbleview_padding="10dp" />
 
-</LinearLayout>
+</RelativeLayout>

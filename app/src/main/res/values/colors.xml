@@ -13,4 +13,5 @@
     <color name="greenStart">#a7f56e</color>
     <color name="greenEnd">#11c612</color>
     <color name="amber">#FFAB00</color>
+    <color name="lgray">#dddddd</color>
 </resources>
