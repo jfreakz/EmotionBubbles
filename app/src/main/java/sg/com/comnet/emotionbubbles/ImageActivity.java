@@ -1,18 +1,41 @@
 package sg.com.comnet.emotionbubbles;
 
-import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ImageActivity extends AppCompatActivity {
+    int h, w;
+    boolean firstTime = false;
     private SeekbarWithIntervals SeekbarWithIntervals = null;
     private ImageView imageview;
-    int h,w;
+    SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            imageview.getLayoutParams().width = w + 10 * progress;
+            imageview.getLayoutParams().height = h + 10 * progress;
+            imageview.requestLayout();
+        }
+
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            if (!firstTime) {
+                w = imageview.getMeasuredWidth();
+                h = imageview.getMeasuredWidth();
+                firstTime = true;
+            }
+        }
+
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +47,12 @@ public class ImageActivity extends AppCompatActivity {
         getSeekbarWithIntervals().setOnSeekBarChangeListener(seekBarChangeListener);
 
         this.imageview = (ImageView) this.findViewById(R.id.imageview1);
-
+        imageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ImageActivity.this, ZoomImageActivity.class));
+            }
+        });
 //        Bitmap finalBitmap = Bitmap.createScaledBitmap(bitmap,
 //                imageview.getWidth(), imageview.getHeight(), false);
 
@@ -45,7 +73,6 @@ public class ImageActivity extends AppCompatActivity {
         }};
     }
 
-
     private SeekbarWithIntervals getSeekbarWithIntervals() {
         if (SeekbarWithIntervals == null) {
             SeekbarWithIntervals = (SeekbarWithIntervals) findViewById(R.id.seekbarWithIntervals);
@@ -53,27 +80,4 @@ public class ImageActivity extends AppCompatActivity {
 
         return SeekbarWithIntervals;
     }
-
-    boolean firstTime = false;
-    SeekBar.OnSeekBarChangeListener seekBarChangeListener	= new SeekBar.OnSeekBarChangeListener() {
-
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            imageview.getLayoutParams().width = w + 10*progress;
-            imageview.getLayoutParams().height = h + 10*progress;
-            imageview.requestLayout();
-        }
-
-        public void onStartTrackingTouch(SeekBar seekBar) {
-            if(!firstTime) {
-                w = imageview.getMeasuredWidth();
-                h = imageview.getMeasuredWidth();
-                firstTime = true;
-            }
-        }
-
-        public void onStopTrackingTouch(SeekBar seekBar) {
-
-        }
-
-    };
 }

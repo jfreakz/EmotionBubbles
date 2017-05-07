@@ -19,7 +19,8 @@
         <activity android:name=".ImageActivity" />
         <activity android:name=".BubbleActivity" />
         <activity android:name=".SubFeelingActivity" />
-        <activity android:name=".FlowActivity"></activity>
+        <activity android:name=".FlowActivity" />
+        <activity android:name=".ZoomImageActivity"></activity>
     </application>
 
 </manifest>
