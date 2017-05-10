@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class ZoomImageActivity extends AppCompatActivity {
 
+    TextView tvParam;
     ImageView ivBG;
     boolean isSameView = false;
     private ZoomImageHelper imageZoomHelper;
@@ -56,6 +58,7 @@ public class ZoomImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zoom_image);
 
+        tvParam = (TextView) findViewById(R.id.tvParam);
         ivBG = (ImageView) findViewById(R.id.ivBG);
         ivBG.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +68,7 @@ public class ZoomImageActivity extends AppCompatActivity {
         });
         ivBG.setOnTouchListener(zoomTouchListener);
 
-        imageZoomHelper = new ZoomImageHelper(this);
+        imageZoomHelper = new ZoomImageHelper(this, tvParam);
         imageZoomHelper.addOnZoomListener(new ZoomImageHelper.OnZoomListener() {
             @Override
             public void onImageZoomStarted(View view) {

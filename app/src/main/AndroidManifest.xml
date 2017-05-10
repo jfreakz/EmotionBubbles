@@ -20,7 +20,9 @@
         <activity android:name=".BubbleActivity" />
         <activity android:name=".SubFeelingActivity" />
         <activity android:name=".FlowActivity" />
-        <activity android:name=".ZoomImageActivity"></activity>
+        <activity android:name=".ZoomImageActivity" />
+        <activity android:name=".RecyclerViewTest" />
+        <activity android:name=".LoadMoreActivity"></activity>
     </application>
 
 </manifest>

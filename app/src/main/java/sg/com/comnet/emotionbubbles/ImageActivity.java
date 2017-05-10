@@ -50,7 +50,8 @@ public class ImageActivity extends AppCompatActivity {
         imageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ImageActivity.this, ZoomImageActivity.class));
+//                startActivity(new Intent(ImageActivity.this, ZoomImageActivity.class));
+                startActivity(new Intent(ImageActivity.this, LoadMoreActivity.class));
             }
         });
 //        Bitmap finalBitmap = Bitmap.createScaledBitmap(bitmap,

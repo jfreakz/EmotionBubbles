@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.List;
 
 
 public class ZoomImageHelper {
+    TextView textView;
     private View zoomableView = null;
     private ViewGroup parentOfZoomableView;
     private ViewGroup.LayoutParams zoomableViewLP;
@@ -33,15 +35,15 @@ public class ZoomImageHelper {
     private double originalDistance;
     private int[] twoPointCenter;
     private int[] originalXY;
-
     private WeakReference<Activity> activityWeakReference;
 
     private boolean isAnimatingDismiss = false;
 
     private List<OnZoomListener> zoomListeners = new ArrayList<>();
 
-    public ZoomImageHelper(Activity activity) {
+    public ZoomImageHelper(Activity activity, TextView tvParam) {
         this.activityWeakReference = new WeakReference<>(activity);
+        textView = tvParam;
     }
 
     public boolean onDispatchTouchEvent(MotionEvent ev, View view) {
@@ -117,7 +119,6 @@ public class ZoomImageHelper {
                     // new parent
                     parentOfZoomableView.removeView(zoomableView);
                     frameLayout.addView(zoomableView, zoomableViewFrameLP);
-
                     // using a post to remove placeholder's drawing cache
                     zoomableView.post(new Runnable() {
                         @Override
@@ -153,6 +154,7 @@ public class ZoomImageHelper {
                             (int) ((pointerCoords2.y + pointerCoords1.y) / 2)
                     };
 
+                    textView.setText("first : " + twoPointCenter[0] + " | " + twoPointCenter[1]);
                     sendZoomEventToListeners(zoomableView, true);
                     return true;
                 }
@@ -177,6 +179,9 @@ public class ZoomImageHelper {
 
                 updateZoomableViewMargins(newCenter[0] - twoPointCenter[0] + originalXY[0],
                         newCenter[1] - twoPointCenter[1] + originalXY[1]);
+
+
+                textView.setText(ev.getRawX() + " | " + ev.getRawY() + "\nsecond : " + newCenter[0] + " | " + newCenter[1] + "\n" + twoPointCenter[0] + " | " + twoPointCenter[1] + "\n" + originalXY[0] + " | " + originalXY[1] + "\n" + (newCenter[0] - twoPointCenter[0] + originalXY[0]) + " | " + (newCenter[1] - twoPointCenter[1] + originalXY[1]));
 
                 darkView.setAlpha((float) (pctIncrease / 8));
 
