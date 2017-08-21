@@ -29,6 +29,12 @@ public class ImageTagActivity extends AppCompatActivity implements View.OnTouchL
         setContentView(R.layout.activity_main);
 
         ivSample = (ImageView) findViewById(R.id.ivSample);
+        Glide.with(this).load("https://lh3.googleusercontent.com/mlLzYuFqIVlPHOYI1EhNeDXV9UasN0FYpfBhN3Ihp_6DqcKzgm5Uf5t5JGelQ8NNdSf9J307VzLQfbv2QQ").override(500, 500).into(ivSample).getSize(new SizeReadyCallback() {
+            @Override
+            public void onSizeReady(int width, int height) {
+                Toast.makeText(MainActivity.this, width + "|" + height,Toast.LENGTH_LONG).show();
+            }
+        });
         ivSample.setOnTouchListener(this);
         ivSample.setOnClickListener(this);
         original = ((BitmapDrawable)ivSample.getDrawable()).getBitmap();
