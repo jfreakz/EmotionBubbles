@@ -1,5 +1,5 @@
 package com.codermagnet.imagetagging;
-
+//https://stackoverflow.com/questions/27757099/android-detect-doubletap-and-tripletap-on-view
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
